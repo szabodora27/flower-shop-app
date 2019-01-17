@@ -1,0 +1,7 @@
+<h2 class="page-title">Page of {{ flower.name }}'s details</h2>
+<p><strong>Name:</strong> {{ flower.name }}</p>
+<p><strong>Color:</strong> {{ flower.color }}</p>
+<p><strong>Description:</strong> {{ flower.description }}</p>
+<p><strong>Price:</strong> {{ flower.price | numberToPrice }}</p>
+
+<a routerLink="/flowers">back to the list</a>
