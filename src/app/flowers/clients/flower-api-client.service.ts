@@ -1,29 +1,32 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { FlowerListModel } from '../models/flower-list.model';
 import { FlowerDetailsModel } from '../models/flower-details.model';
+import { delay } from 'rxjs/operators';
+import { listMock, detailsMocks } from './mock/fake-flowers-api-client.service';
+import { HttpClient } from '@angular/common/http';
+import { FlowerFilterModel } from '../models/flower-filter.model';
 
-const listMock: FlowerListModel[] = [
-  { id: 1, name: 'rose', color: 'yellow', count: 3, price: 1  },
-  { id: 2, name: 'orchid', color: 'white', count: 4, price: 2 }
-];
-
-const detailsMocks: FlowerDetailsModel[] =
-  listMock.map((x: FlowerListModel): FlowerDetailsModel => ({
-    ...x,
-    description: 'Symbolizing gentility and elegance, these dozen pink roses, punctuated with huckleberry and gypsophila, celebrate beauty and innocence. Send them to someone young at heart.'
-  }));
+const flowerfilter = (filter: FlowerFilterModel) => {
+  return (x: FlowerListModel): boolean => {
+    return ((filter.name && x.name.toLowerCase().indexOf(filter.name.toLowerCase()) !== -1) || !filter.name)
+        && ((filter.color && x.color.toLowerCase().indexOf(filter.color.toLowerCase()) !== -1) || !filter.color);
+  };
+};
 
 @Injectable()
 export class FlowersApiClientService {
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
-  getFlowers(): Observable<FlowerListModel[]> {
-    return of(listMock);
+  getFlowers(filter: FlowerFilterModel): Observable<FlowerListModel[]> {
+    const obs = filter
+      ? of(listMock.filter(flowerfilter(filter)))
+      : of(listMock);
+    return obs.pipe(delay(500));
   }
 
   getFlowerDetails(id: number): Observable<FlowerDetailsModel> {
-    return of(detailsMocks.find(x => x.id === id));
+    return this.http.get<FlowerDetailsModel>(`/flowers/${id}`);
   }
 }

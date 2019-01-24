@@ -9,12 +9,12 @@ import { FlowerDetailsModel } from '../models/flower-details.model';
 export class FlowerDetailsPageComponent implements OnInit {
     flower: FlowerDetailsModel;
 
-    constructor( private route: ActivatedRoute, private booksApiClient: FlowersApiClientService ) { }
+    constructor( private route: ActivatedRoute, private flowersApiClient: FlowersApiClientService ) { }
 
     ngOnInit() {
     const id = +this.route.snapshot.paramMap.get('id');
 
-    this.booksApiClient
+    this.flowersApiClient
         .getFlowerDetails(id)
         .subscribe(res => this.flower = res);
     }

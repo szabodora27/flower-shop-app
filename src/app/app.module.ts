@@ -5,8 +5,7 @@ import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { FlowersModule } from './flowers/flowers.module';
-import { CommonModule } from '@angular/common';
+import { CoreModule } from './core/core.module';
 
 @NgModule({
   declarations: [
@@ -17,8 +16,7 @@ import { CommonModule } from '@angular/common';
     FormsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    CommonModule,
-    FlowersModule
+    CoreModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,0 +1,11 @@
+<div *ngIf="isAuthenticated$ | async; else loggedOut">
+    <span>Hello {{ user.username }}!</span>
+    <button mat-button routerLink="/"> Main page </button>
+    <button mat-button routerLink="/flowers"> Flowers </button>
+    <button mat-button (click)="logout()"> Logout </button>
+</div>
+<ng-template #loggedOut>
+    <button mat-button (click)="openLogin()"> Login </button>
+    <button mat-button routerLink="/"> Main page </button>
+    <button mat-button routerLink="/flowers"> Flowers </button>
+</ng-template>
